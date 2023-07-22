@@ -1,4 +1,4 @@
-<?php require_once('templates/header.php') ?>
+<?php require_once(__DIR__.'/templates/header.php') ?>
 
 <div class="px-4 pt-5 my-5 text-center border-bottom">
     <h1 class="display-4 fw-bold text-body-emphasis">Un peu plus sur nous...</h1>
