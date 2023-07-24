@@ -1,4 +1,7 @@
 <?php
+require_once(__DIR__.'/db/config.php');
+require_once(__DIR__.'/db/pdo.php');
+require_once(__DIR__.'/app/mainMenu.php');
 require_once(__DIR__.'/templates/header.php');
 require_once(__DIR__.'/app/latestNews.php');
 require_once(__DIR__.'/app/themeSelections.php');

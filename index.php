@@ -1,6 +1,15 @@
 <?php
-require_once(__DIR__.'/templates/header.php');
+require_once(__DIR__.'/db/config.php');
+require_once(__DIR__.'/db/pdo.php');
 require_once(__DIR__.'/app/articles.php');
+require_once(__DIR__.'/app/mainMenu.php');
+require_once(__DIR__.'/templates/header.php');
+
+$fauneArticle = getOneArticle($pdo, 'Faune');
+$floreArticle = getOneArticle($pdo, 'Flore');
+$astucesArticle = getOneArticle($pdo, 'Astuces');
+
+$oneArticle = [$fauneArticle, $floreArticle, $astucesArticle];
 ?>
 
 <main class="d-flex flex-column justify-content-center">
@@ -27,16 +36,16 @@ require_once(__DIR__.'/app/articles.php');
 
     <div class="container my-3 d-flex justify-content-center">
         <div class="row text-center justify-content-around">
-            <?php foreach ($articles as $key => $article) { ?>
+            <?php foreach ($oneArticle as $key => $article) { ?>
                 <div class="col-md-4 my-2">
                     <div class="card h-100">
-                        <img src="/uploads/articles/<?= $article['image'] ?>" class="card-img-top" alt="<?= $article['title'] ?>">
+                        <img src="/uploads/articles/<?= htmlentities($article['image'])?>" class="card-img-top" alt="<?= htmlentities($article['title']) ?>">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title"><?= $article['title'] ?></h5>
+                            <h5 class="card-title"><?= htmlentities($article['title']) ?></h5>
                             <p class="card-text flex-grow-1">
-                                <?= $article['content'] ?>
+                                <?= htmlentities($article['content']) ?>
                             </p>
-                            <a href="#" class="btn btn-primary mt-3">Lire plus...</a>
+                            <a href="/resources/article.php?id=<?= $article['ID']?>" class="btn btn-primary mt-3">Lire plus...</a>
                         </div>
                     </div>
                 </div>

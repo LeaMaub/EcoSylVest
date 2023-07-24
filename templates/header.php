@@ -1,5 +1,7 @@
 <?php
 require_once(__DIR__ . '/../app/mainMenu.php');
+require_once(__DIR__ . '/../app/pageInfo.php');
+$pageInfo = getPageInfo($mainMenu, $currentPage);
 ?>
 
 <!DOCTYPE html>
@@ -8,8 +10,8 @@ require_once(__DIR__ . '/../app/mainMenu.php');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= $menuItems[$currentPage]['meta_description'] ?>">
-    <title><?= $menuItems[$currentPage]['head_title'] ?></title>
+    <meta name="description" content="<?= htmlentities($pageInfo['meta_description']) ?>">
+    <title><?= htmlentities($pageInfo['head_title']) ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
     <link rel="stylesheet" href="../assets/css/override-bootstrap.css">
 </head>
@@ -28,14 +30,17 @@ require_once(__DIR__ . '/../app/mainMenu.php');
 
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <ul class="nav mb-2 justify-content-center mb-md-0 me-5">
-                    <?php foreach ($mainMenu as $key => $menuItem) { ?>
-                        <li><a href="/<?= $key ?>" class="nav-link px-2 link-secondary"><?= $menuItem['title'] ?></a></li>
-                    <?php } ?>
+                    <?php foreach ($mainMenu as $key => $menuItem) {
+                        if (!array_key_exists('exclude', $menuItem)) { ?>
+                            <li><a href="/<?= $key ?>" class="nav-link px-2 link-secondary"><?= htmlentities($menuItem['title']) ?></a></li>
+                    <?php }
+                    }
+                    ?>
                 </ul>
 
                 <div class="text-end">
                     <?php foreach ($buttonsMenu as $key => $buttonMenu) { ?>
-                        <a href="/templates/<?= $key ?>" class="btn btn-outline-primary me-2"><?= $buttonMenu['title'] ?></a>
+                        <a href="/templates/<?= $key ?>" class="btn btn-outline-primary me-2"><?= htmlentities($buttonMenu['title']) ?></a>
                     <?php } ?>
                 </div>
             </div>
