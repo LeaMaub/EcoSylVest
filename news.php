@@ -1,11 +1,10 @@
 <?php
-require_once(__DIR__.'/db/config.php');
-require_once(__DIR__.'/db/pdo.php');
-require_once(__DIR__.'/app/mainMenu.php');
-require_once(__DIR__.'/templates/header.php');
-require_once(__DIR__.'/app/carousel.php');
-require_once(__DIR__.'/app/themeSelections.php');
-require_once(__DIR__.'/app/reportages.php');
+require_once(__DIR__ . '/templates/header.php');
+require_once(__DIR__ . '/db/pdo.php');
+require_once(__DIR__ . '/app/mainMenu.php');
+require_once(__DIR__ . '/app/carousel.php');
+require_once(__DIR__ . '/app/themeSelections.php');
+require_once(__DIR__ . '/app/reportages.php');
 
 $latestNews = getCarousel($pdo);
 $reportages = getReportages($pdo);
@@ -26,7 +25,9 @@ $reportages = getReportages($pdo);
                     <div class="carousel-caption text-start">
                         <h1><?= $latestNew['title'] ?></h1>
                         <p style="color: #2A3C24"><?= $latestNew['subtitle'] ?></p>
-                        <p><a class="btn btn-lg btn-primary" href="/templates/signup.php">M'inscrire</a></p>
+                        <?php if (!isset($_SESSION['user'])) { ?>
+                            <p><a class="btn btn-lg btn-primary" href="/templates/signup.php">M'inscrire</a></p>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

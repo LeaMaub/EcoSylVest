@@ -1,5 +1,31 @@
 <?php
 
+function getArticle(PDO $pdo, int $limit = null, int $page = null):array
+{
+    $sql = 'SELECT * FROM articles ORDER BY ID DESC ';
+    if($limit && !$page) {
+        $sql .= 'LIMIT :limit';
+    }
+    if ($page) {
+        $sql .= 'LIMIT :offset, :limit';
+    }
+
+    $query = $pdo->prepare($sql);
+
+    if ($limit) {
+        $query->bindValue(':limit', $limit, PDO::PARAM_INT);
+    }
+    if ($page) {
+        $offset = ($page - 1) * $limit;
+        $query->bindValue(':offset', $offset, PDO::PARAM_INT);
+    }
+
+    $query->execute();
+    $articles = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    return $articles;
+}
+
 function getArticleById(PDO $pdo, int $id): array
 {
     $query = $pdo->prepare('SELECT * FROM articles WHERE id = :id');

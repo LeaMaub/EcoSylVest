@@ -1,7 +1,9 @@
 <?php
+require_once(__DIR__ . '/../db/config.php');
+require_once(__DIR__ . '/../app/session.php');
 require_once(__DIR__ . '/../app/mainMenu.php');
 require_once(__DIR__ . '/../app/pageInfo.php');
-$pageInfo = getPageInfo($mainMenu, $currentPage);
+$pageInfo = getPageInfo($menuItems, $currentPage);
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +32,7 @@ $pageInfo = getPageInfo($mainMenu, $currentPage);
 
             <div class="d-flex flex-column flex-md-row align-items-center">
                 <ul class="nav mb-2 justify-content-center mb-md-0 me-5">
-                    <?php foreach ($mainMenu as $key => $menuItem) {
+                    <?php foreach ($menuItems as $key => $menuItem) {
                         if (!array_key_exists('exclude', $menuItem)) { ?>
                             <li><a href="/<?= $key ?>" class="nav-link px-2 link-secondary"><?= htmlentities($menuItem['title']) ?></a></li>
                     <?php }
@@ -39,8 +41,11 @@ $pageInfo = getPageInfo($mainMenu, $currentPage);
                 </ul>
 
                 <div class="text-end">
-                    <?php foreach ($buttonsMenu as $key => $buttonMenu) { ?>
-                        <a href="/templates/<?= $key ?>" class="btn btn-outline-primary me-2"><?= htmlentities($buttonMenu['title']) ?></a>
+                    <?php if (isset($_SESSION['user'])) { ?>
+                        <a href="/templates/logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
+                    <?php } else { ?>
+                        <a href="/templates/login.php" class="btn btn-outline-primary me-2">Connexion</a>
+                        <a href="/templates/signup.php" class="btn btn-outline-primary me-2">S'inscrire</a>
                     <?php } ?>
                 </div>
             </div>

@@ -82,15 +82,15 @@ $discussions = getThemedDiscussions($pdo, $theme);
     <h2 class="mt-5 display-4 text-center">Créer une discussion</h2>
     <form action="<?= ('post/post_discussion.php'); ?>" method="post" class="mt-5">
         <div class="form-group">
-            <label for="subject">Sujet de discussion</label>
+            <label class="labelForum" for="subject">Sujet de discussion</label>
             <input type="text" class="form-control" id="subject" name="subject" placeholder="Entrer le sujet">
         </div>
         <div class="form-group">
-            <label for="username">Nom d'utilisateur</label>
+            <label class="labelForum" for="username">Nom d'utilisateur</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Entrer votre nom d'utilisateur">
         </div>
         <div class="form-group">
-            <label for="theme">Thème</label>
+            <label class="labelForum" for="theme">Thème</label>
             <select class="form-control" id="theme" name="theme">
                 <option>Faune</option>
                 <option>Flore</option>
@@ -98,7 +98,7 @@ $discussions = getThemedDiscussions($pdo, $theme);
             </select>
         </div>
         <div class="form-group">
-            <label for="message">Message</label>
+            <label class="labelForum" for="message">Message</label>
             <textarea class="form-control" id="message" name="message" rows="3" placeholder="Entrez votre message ici"></textarea>
         </div>
         <div class="d-flex justify-content-center">

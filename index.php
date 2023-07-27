@@ -1,10 +1,9 @@
 <?php
-require_once(__DIR__ . '/db/config.php');
+require_once(__DIR__ . '/templates/header.php');
 require_once(__DIR__ . '/db/pdo.php');
 require_once(__DIR__ . '/app/presentation.php');
 require_once(__DIR__ . '/app/articles.php');
 require_once(__DIR__ . '/app/mainMenu.php');
-require_once(__DIR__ . '/templates/header.php');
 
 $presentation = getPresentation($pdo);
 
