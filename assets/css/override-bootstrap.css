@@ -80,6 +80,7 @@ h2,
 h3 {
     color: var(--secondary);
 }
+
 .card-img-top {
     width: 100%;
     height: 15vw;
@@ -89,5 +90,20 @@ h3 {
 .sidebar {
     position: sticky;
     top: 0;
-    overflow: hidden;
+}
+
+.subject {
+    font-size: 20px;
+}
+
+label {
+    font-size: 18px;
+    font-weight: bold;
+    color:#343a40;
+    margin: 7px;
+}
+
+textarea {
+    height: 15rem;
+    resize: none;
 }

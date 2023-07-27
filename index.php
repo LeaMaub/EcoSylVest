@@ -23,9 +23,6 @@ $oneArticle = [$fauneArticle, $floreArticle, $astucesArticle];
                 <p class="lead">
                     <?= $presentation['content'] ?>
                 </p>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
-                    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Voir présentation</button>
-                </div>
             </div>
             <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg d-flex justify-content-center">
                 <img class="rounded-lg-3" src="assets/images/<?= $presentation['image'] ?>" alt="<?= $presentation['title'] ?>" width="720">
