@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/templates/header.php';
 require_once __DIR__ . '/../db/pdo.php';
-require_once __DIR__ . '/../app/articles.php';
+require_once __DIR__ . '/../app/carousel.php';
 
 if (isset($_GET['page'])) {
     $page = (int)$_GET['page'];
@@ -9,19 +9,19 @@ if (isset($_GET['page'])) {
     $page = 1;
 }
 
-$articles = getArticle($pdo, _ADMIN_ITEM_PER_PAGE_, $page);
+$carousels = getCarousel($pdo, _ADMIN_ITEM_PER_PAGE_, $page);
 
-$totalArticles = getTotalArticles($pdo);
+$totalCarousel = getTotalCarousel($pdo);
 
-$totalPages = ceil($totalArticles / _ADMIN_ITEM_PER_PAGE_);
+$totalPages = ceil($totalCarousel / _ADMIN_ITEM_PER_PAGE_);
 ?>
 
-<h1 class='py-5 text-center'>Liste des articles</h1>
+<h1 class='py-5 text-center'>Liste des reportages</h1>
 
 <div class="mx-5">
     <table class="table">
         <thead>
-            <tr class='text-center'>
+            <tr>
                 <th scope="col">#</th>
                 <th scope="col">Titre</th>
                 <th scope="col">Sous-titre</th>
@@ -29,12 +29,12 @@ $totalPages = ceil($totalArticles / _ADMIN_ITEM_PER_PAGE_);
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($articles as $article) { ?>
-                <tr class='text-start'>
-                    <th scope="row"><?= $article['ID'] ?></th>
-                    <td><?= $article['title'] ?></td>
-                    <td><?= $article['subtitle'] ?></td>
-                    <td> <a href="editArticle.php?id=<?= $article['ID'] ?>" class="text-decoration-none link-secondary">Modifier </a> | <a href="deleteArticle.php?id=<?= $article['ID'] ?>" class="text-decoration-none link-secondary">Supprimer</a> </td>
+            <?php foreach ($carousels as $carousel) { ?>
+                <tr>
+                    <th scope="row"><?= $carousel['ID'] ?></th>
+                    <td><?= $carousel['title'] ?></td>
+                    <td><?= $carousel['subtitle'] ?></td>
+                    <td> <a href="">Modifier </a> | <a href="">Supprimer</a> </td>
                 </tr>
             <?php } ?>
         </tbody>

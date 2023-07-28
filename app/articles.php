@@ -26,9 +26,18 @@ function getArticle(PDO $pdo, int $limit = null, int $page = null):array
     return $articles;
 }
 
+function getTotalArticles(PDO $pdo): int
+{
+    $query = $pdo->prepare('SELECT COUNT(*) as total FROM articles');
+    $query->execute();
+    $result = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $result['total'];
+}
+
 function getArticleById(PDO $pdo, int $id): array
 {
-    $query = $pdo->prepare('SELECT * FROM articles WHERE id = :id');
+    $query = $pdo->prepare('SELECT * FROM articles WHERE ID = :id');
     $query->bindParam(':id', $id, PDO::PARAM_INT);
     $query->execute();
     $article = $query->fetch(PDO::FETCH_ASSOC);
@@ -54,4 +63,40 @@ function getOneArticle(PDO $pdo, $category): array
     $oneArticle = $query->fetch(PDO::FETCH_ASSOC);
 
     return $oneArticle;
+}
+
+function saveArticle(PDO $pdo, string $title, string $subtitle, string $content, string|null $image, int $theme_id, int $id = null):bool 
+{
+    if ($id === null) {
+        $query = $pdo->prepare("INSERT INTO articles (title, subtitle, content, image, theme_id) "
+        ."VALUES(:title, :subtitle, :content, :image, :theme_id)");
+    } else {
+        $query = $pdo->prepare("UPDATE `articles` SET `title` = :title, "
+        ."`subtitle` = :subtitle, "
+        ."`content` = :content, "
+        ."image = :image, theme_id = :theme_id WHERE `id` = :id;");
+        
+        $query->bindValue(':id', $id, $pdo::PARAM_INT);
+    }
+
+    $query->bindValue(':title', $title, $pdo::PARAM_STR);
+    $query->bindValue(':subtitle', $subtitle, $pdo::PARAM_STR);
+    $query->bindValue(':content', $content, $pdo::PARAM_STR);
+    $query->bindValue(':image',$image, $pdo::PARAM_STR);
+    $query->bindValue(':theme_id',$theme_id, $pdo::PARAM_INT);
+    return $query->execute();  
+}
+
+function deleteArticle(PDO $pdo, int $id):bool
+{
+    
+    $query = $pdo->prepare("DELETE FROM articles WHERE id = :id");
+    $query->bindValue(':id', $id, $pdo::PARAM_INT);
+
+    $query->execute();
+    if ($query->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

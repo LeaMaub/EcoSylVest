@@ -40,6 +40,7 @@ $pageInfo = getPageInfo($menuItems, $currentPage);
                         <?php }
                         }
                         ?>
+                        <li><a href="/admin/index.php" class="nav-link px-2 link-secondary">Tableau de bord</a></li>
                     </ul>
 
                     <div class="d-flex justify-content-center">

@@ -3,11 +3,12 @@ require_once(__DIR__ . '/templates/header.php');
 require_once(__DIR__ . '/db/pdo.php');
 require_once(__DIR__ . '/app/mainMenu.php');
 require_once(__DIR__ . '/app/carousel.php');
-require_once(__DIR__ . '/app/themeSelections.php');
+require_once(__DIR__ . '/app/category.php');
 require_once(__DIR__ . '/app/reportages.php');
 
 $latestNews = getCarousel($pdo);
 $reportages = getReportages($pdo);
+$themes = getThemes($pdo);
 ?>
 
 <div id="myCarousel" class="carousel slide mb-6 pointer-event my-5" data-bs-ride="carousel" data-bs-theme="light">
@@ -48,11 +49,11 @@ $reportages = getReportages($pdo);
 
 
     <div class="row">
-        <?php foreach ($themeSelections as $key => $themeSelection) { ?>
+        <?php foreach ($themes as $key => $theme) { ?>
             <div class="col-lg-4">
-                <a href="/themes/<?= $key ?>" class="d-flex flex-column align-items-center link-body-emphasis text-decoration-none">
-                    <img class="bd-placeholder-img rounded-circle cover-img" width="170" height="170" src="/assets/images/<?= $themeSelection['image'] ?>" alt="<?= $themeSelection['title'] ?>">
-                    <h2 class="fw-normal"><?= $themeSelection['title'] ?></h2>
+                <a href="/themes/<?= $theme['page'] ?>" class="d-flex flex-column align-items-center link-body-emphasis text-decoration-none">
+                    <img class="bd-placeholder-img rounded-circle cover-img" width="170" height="170" src="/assets/images/<?= $theme['image'] ?>" alt="<?= $theme['title'] ?>">
+                    <h2 class="fw-normal"><?= $theme['title'] ?></h2>
                 </a>
             </div>
         <?php } ?>

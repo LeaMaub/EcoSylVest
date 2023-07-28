@@ -3,10 +3,42 @@
 <h1 class="text-center">Tableau de bord Administrateur</h1>
 <div>
 <ul class="nav mb-2 justify-content-center mb-md-0 me-5">
-                        <li><a href="#" class="nav-link px-2 link-secondary">Ajouter/supprimer un administrateur</a></li>
-                        <li><a href="articles.php" class="nav-link px-2 link-secondary">Ajouter/supprimer un article</a></li>
-                        <li><a href="#" class="nav-link px-2 link-secondary">Ajouter/supprimer un reportage</a></li>
-                        <li><a href="#" class="nav-link px-2 link-secondary">Modifier les dernières nouvelles</a></li>
+<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Gestion du/des administrateur(s)
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ajouter</a></li>
+                                <li><a class="dropdown-item" href="#">Supprimer</a></li>
+                            </ul>
+</li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Modifier les articles
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="addArticle.php">Ajouter</a></li>
+                                <li><a class="dropdown-item" href="articles.php">Modifier/Supprimer</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Modifier les reportages
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="addReportage.php">Ajouter</a></li>
+                                <li><a class="dropdown-item" href="reportages.php">Modifier/Supprimer</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Modifier les dernières nouvelle
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Ajouter</a></li>
+                                <li><a class="dropdown-item" href="carousel.php">Modifier/Supprimer</a></li>
+                            </ul>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 Gestion du forum
@@ -25,6 +57,7 @@
                                 <li><a class="dropdown-item" href="#">À propos</a></li>
                             </ul>
                         </li>
+                        <li><a href="#" class="nav-link px-2 link-secondary">Bannir un utilisateur</a></li>
                     </ul>
 </div>
 <?php require_once('../templates/footer.php'); ?>
