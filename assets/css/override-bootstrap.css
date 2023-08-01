@@ -195,3 +195,28 @@ textarea {
     margin-bottom: 10px;
     text-align: center;
 }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    gap: 30px; /* Espacement entre les éléments */
+}
+
+.user-info h5, p {
+    margin: 0;
+    color: #243010;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Ajoutez un espace entre l'image et le titre */
+}
+
+#profile-image {
+    width: 100px;  /* Choisissez la taille que vous préférez */
+    height: 100px;  /* Choisissez la taille que vous préférez */
+    border-radius: 50%;  /* Pour faire de l'image un cercle */
+    object-fit: cover;  /* Pour s'assurer que l'image couvre toute la surface définie, tout en maintenant son aspect */
+}

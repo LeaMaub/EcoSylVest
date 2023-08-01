@@ -13,3 +13,13 @@ function verifyUserLoginPassword(PDO $pdo, string $email, string $password):bool
         return false;
     }
 }
+
+function getUserById(PDO $pdo, int $id): array
+{
+    $query = $pdo->prepare('SELECT * FROM users WHERE ID = :id');
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->execute();
+    $users = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $users ? $users : [];
+}

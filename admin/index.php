@@ -35,7 +35,7 @@
                             Modifier les dernières nouvelle
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Ajouter</a></li>
+                                <li><a class="dropdown-item" href="addCarousel.php">Ajouter</a></li>
                                 <li><a class="dropdown-item" href="carousel.php">Modifier/Supprimer</a></li>
                             </ul>
                         </li>
@@ -53,8 +53,8 @@
                                 Modifier une page
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Accueil</a></li>
-                                <li><a class="dropdown-item" href="#">À propos</a></li>
+                                <li><a class="dropdown-item" href="editAccueil.php">Accueil</a></li>
+                                <li><a class="dropdown-item" href="editAbout.php">À propos</a></li>
                             </ul>
                         </li>
                         <li><a href="#" class="nav-link px-2 link-secondary">Bannir un utilisateur</a></li>

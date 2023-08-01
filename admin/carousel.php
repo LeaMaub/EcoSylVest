@@ -34,7 +34,7 @@ $totalPages = ceil($totalCarousel / _ADMIN_ITEM_PER_PAGE_);
                     <th scope="row"><?= $carousel['ID'] ?></th>
                     <td><?= $carousel['title'] ?></td>
                     <td><?= $carousel['subtitle'] ?></td>
-                    <td> <a href="">Modifier </a> | <a href="">Supprimer</a> </td>
+                    <td> <a href="editCarousel.php?id=<?= $carousel['ID'] ?>" class="text-decoration-none link-secondary">Modifier </a> | <a href="deleteCarousel.php?id=<?= $carousel['ID'] ?>" class="text-decoration-none link-secondary">Supprimer</a> </td>
                 </tr>
             <?php } ?>
         </tbody>

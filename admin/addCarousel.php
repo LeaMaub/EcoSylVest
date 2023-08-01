@@ -3,23 +3,18 @@ require_once('../admin/templates/header.php');
 adminOnly();
 require_once __DIR__ . "/../db/pdo.php";
 require_once __DIR__ . "/../app/tools.php";
-require_once __DIR__ . "/../app/articles.php";
-require_once __DIR__ . "/../app/category.php";
+require_once __DIR__ . "/../app/carousel.php";
 
 $errors = [];
 $messages = [];
-$article = [
+$carousel = [
     'title' => '',
     'subtitle' => '',
-    'content' => '',
-    'category_id' => ''
 ];
 
-$themes = getThemes($pdo);
+$pageTitle = "Formulaire ajout de dernières nouvelles";
 
-$pageTitle = "Formulaire ajout article";
-
-if (isset($_POST['saveArticle'])) {
+if (isset($_POST['saveCarousel'])) {
 
     //@todo gérer la gestion des erreurs sur les champs (champ vide etc.)
 
@@ -34,10 +29,10 @@ if (isset($_POST['saveArticle'])) {
             /* On déplace le fichier uploadé dans notre dossier upload, dirname(__DIR__) 
                 permet de cibler le dossier parent car on se trouve dans admin
             */
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], dirname(__DIR__) . _ARTICLES_IMAGES_FOLDER_ . $fileName)) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], dirname(__DIR__) . _CAROUSEL_IMAGES_FOLDER_ . $fileName)) {
                 if (isset($_POST['image'])) {
                     // On supprime l'ancienne image si on a posté une nouvelle
-                    unlink(dirname(__DIR__) . _ARTICLES_IMAGES_FOLDER_ . $_POST['image']);
+                    unlink(dirname(__DIR__) . _CAROUSEL_IMAGES_FOLDER_ . $_POST['image']);
                 }
             } else {
                 $errors[] = 'Le fichier n\'a pas été uploadé';
@@ -51,29 +46,25 @@ if (isset($_POST['saveArticle'])) {
     les informations dans les champs. C'est utile pas exemple si on upload un mauvais
     fichier et qu'on ne souhaite pas perdre les données qu'on avait saisit.
     */
-    $article = [
+    $carousel = [
         'title' => $_POST['title'],
         'subtitle' => $_POST['subtitle'],
-        'content' => $_POST['content'],
-        'category_id' => $_POST['category_id'],
         'image' => $fileName
     ];
     // Si il n'y a pas d'erreur on peut faire la sauvegarde
     if (!$errors) {
         // On passe toutes les données à la fonction saveArticle
-        $res = saveArticle($pdo, $_POST["title"], $_POST["subtitle"], $_POST["content"], $fileName, (int)$_POST["category_id"]);
+        $res = saveCarousel($pdo, $_POST["title"], $_POST["subtitle"], $fileName);
 
         if ($res) {
-            $messages[] = "L'article a bien été sauvegardé";
+            $messages[] = "La dernière nouvelle a bien été sauvegardée";
             //On vide le tableau article pour avoir les champs de formulaire vides
             $article = [
                 'title' => '',
                 'subtitle' => '',
-                'content' => '',
-                'category_id' => ''
             ];
         } else {
-            $errors[] = "L'article n'a pas été sauvegardé";
+            $errors[] = "La dernière nouvelle n'a pas été sauvegardée";
         }
     }
 }
@@ -96,23 +87,11 @@ if (isset($_POST['saveArticle'])) {
     <form method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="title" class="form-label">Titre</label>
-            <input type="text" class="form-control" id="title" name="title" value="<?= $article['title']; ?>">
+            <input type="text" class="form-control" id="title" name="title" value="<?= $carousel['title']; ?>">
         </div>
         <div class="mb-3">
             <label for="subtitle" class="form-label">Sous-titre</label>
-            <input type="text" class="form-control" id="subtitle" name="subtitle" value="<?= $article['subtitle']; ?>">
-        </div>
-        <div class="mb-3">
-            <label for="content" class="form-label">Contenu</label>
-            <textarea class="form-control" id="content" name="content" rows="8"><?= $article['content']; ?></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="category" class="form-label">Catégorie</label>
-            <select name="category_id" id="category" class="form-select">
-                <?php foreach ($themes as $theme) { ?>
-                    <option value="<?= $theme['id']; ?>" <?php if ($article['category_id'] == $theme['id']) { ?>selected="selected" <?php }; ?>><?= $theme['title']; ?></option>
-                <?php } ?>
-            </select>
+            <input type="text" class="form-control" id="subtitle" name="subtitle" value="<?= $carousel['subtitle']; ?>">
         </div>
 
         <p>
@@ -120,7 +99,7 @@ if (isset($_POST['saveArticle'])) {
         </p>
 
         <div class="d-flex justify-content-center">
-            <input type="submit" name="saveArticle" class="btn btn-primary" value="Enregistrer">
+            <input type="submit" name="saveCarousel" class="btn btn-primary" value="Enregistrer">
         </div>
 
 
