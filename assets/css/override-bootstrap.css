@@ -220,3 +220,40 @@ textarea {
     border-radius: 50%;  /* Pour faire de l'image un cercle */
     object-fit: cover;  /* Pour s'assurer que l'image couvre toute la surface définie, tout en maintenant son aspect */
 }
+
+.rounded-profile-image {
+    border-radius: 50%; /* rend l'image ronde */
+    width: 52px;
+    height: 52px;
+    margin-bottom: 100px;
+    margin-right: 30px;
+}
+
+div.d-flex.justify-content-between.text-body-secondary.pt-3.mx-auto.additional {
+    display: none;
+}
+
+.hidden-discussion {
+    display: none !important;
+}
+
+.subjectContent {
+    font-size : 18px;
+}
+.date {
+    font-size: 13px;
+}
+
+.reply {
+    padding: 15px;
+    border-radius: 5px;
+    background-color: rgb(161, 195, 73, 0.2);
+}
+
+.replies {
+    margin-top: 30px;
+    width: 54em;
+    height: 50px;
+    outline: none;
+}
+

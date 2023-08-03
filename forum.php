@@ -8,8 +8,24 @@ $theme = null;
 if (isset($_GET['theme'])) {
     $theme = $_GET['theme'];
 }
+if (isset($_SESSION['user'])) {
+    $userId = $_SESSION['user'];
+} else {
+    header("Location: /templates/login.php");
+    exit;
+}
 
 $discussions = getThemedDiscussions($pdo, $theme);
+$picture = getPictureUser($pdo, $userId);
+$pictureUser = $picture ? $picture['image'] : '/assets/images/profilpicturesdefault.jpg';
+$username = getUsernameOfAuthor($pdo, $userId);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $subject = $_POST['subject'];
+    $content = $_POST['content'];
+
+    $createDiscussion = createDiscussion($pdo, $subject, $content, $theme, $userId);
+}
 
 ?>
 
@@ -49,32 +65,44 @@ $discussions = getThemedDiscussions($pdo, $theme);
     </div>
 
     <div class="content d-flex flex-grow-1">
-        <div class="container d-flex flex-column justify-content-center">
-            <div class="row">
-                <div class="col-lg-8 mx-auto my-3 p-2 bg-body rounded shadow-sm">
-                    <h6 class="border-bottom pb-2 mb-0 text-center display-6">Publications les plus récentes</h6>
-                    <?php foreach ($discussions as $key => $discussion) { ?>
-                        <div class="d-flex justify-content-between text-body-secondary pt-3 mx-auto">
-                            <div class="d-flex">
-                                <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-                                    <rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-                                </svg>
-                                <p class="pb-3 mb-0 small lh-sm border-bottom">
-                                    <strong class="subject d-block text-gray-dark"><?= $discussion['subject'] ?></strong>
-                                    <strong class="d-block text-gray-dark">@jungleExplorer</strong>
-                                    <?= $discussion['content'] ?>
-                                </p>
-                            </div>
-                            <?= $discussion['themeSvg'] ?>
+    <div class="container d-flex flex-column justify-content-center">
+        <div class="row">
+            <div class="col-lg-8 mx-auto my-3 p-2 bg-body rounded shadow-sm">
+                <h6 class="border-bottom pb-2 mb-0 text-center display-6">Publications les plus récentes</h6>
+                <?php foreach ($discussions as $key => $discussion) {
+                    $authorId = $discussion['user_id'];
+                    $username = getUsernameOfAuthor($pdo, $authorId);
+                    $picture = getPictureUser($pdo, $authorId);
+                    $pictureUser = $picture ? $picture['image'] : '/assets/images/profilpicturesdefault.jpg';
+                    $additionalClass = $key >= 5 ? 'additional hidden-discussion' : 'additional';
+                ?>
+                <a href="replies.php?id=<?= $discussion['ID'] ?>" class="text-decoration-none">
+                    <div class="d-flex justify-content-between text-body-secondary pt-3 mx-auto <?= $additionalClass ?>">
+                        <div class="d-flex flex-direction-column">
+                            <img src="<?= $pictureUser ?>" alt="Photo de profil" class="mr-2 rounded-profile-image">
+                            <p class="pb-3 mb-0 small lh-sm">
+                                <strong class="subject d-block text-gray-dark">
+                                    <?= $discussion['subject'] ?>
+                                </strong>
+                                <strong class="d-block text-gray-dark mb-2">@<?= $username['username'] ?></strong>
+                                <?= $discussion['content'] ?>
+                                <br />
+                                <br />
+                                <?= $discussion['date_creation'] ?>
+                            </p>
                         </div>
-                    <?php } ?>
-                    <div class="d-grid gap-2 d-md-flex justify-content-center mt-5">
-                        <a href="#" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Toutes les publications...</a>
+                        <?= $discussion['themeSvg'] ?>
                     </div>
+                    </a>
+                    <hr class="my-3 <?= $additionalClass ?>">
+                <?php } ?>
+                <div class="d-grid gap-2 d-md-flex justify-content-center mt-5">
+                    <a href="#" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Toutes les publications...</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 </div>
 
@@ -82,15 +110,11 @@ $discussions = getThemedDiscussions($pdo, $theme);
     <h2 class="mt-5 display-4 text-center">Créer une discussion</h2>
     <form action="<?= ('post/post_discussion.php'); ?>" method="post" class="mt-5">
         <div class="form-group">
-            <label class="labelForum" for="subject">Sujet de discussion</label>
+            <label class="labelForum" for="subject"> Sujet de discussion </label>
             <input type="text" class="form-control" id="subject" name="subject" placeholder="Entrer le sujet">
         </div>
         <div class="form-group">
-            <label class="labelForum" for="username">Nom d'utilisateur</label>
-            <input type="text" class="form-control" id="username" name="username" placeholder="Entrer votre nom d'utilisateur">
-        </div>
-        <div class="form-group">
-            <label class="labelForum" for="theme">Thème</label>
+            <label class="labelForum" for="theme"> Thème </label>
             <select class="form-control" id="theme" name="theme">
                 <option>Faune</option>
                 <option>Flore</option>
@@ -98,8 +122,8 @@ $discussions = getThemedDiscussions($pdo, $theme);
             </select>
         </div>
         <div class="form-group">
-            <label class="labelForum" for="message">Message</label>
-            <textarea class="form-control" id="message" name="message" rows="3" placeholder="Entrez votre message ici"></textarea>
+            <label class="labelForum" for="content">Message</label>
+            <textarea class="form-control" id="content" name="content" rows="3" placeholder="Entrez votre message ici"></textarea>
         </div>
         <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary mt-5">Soumettre</button>
@@ -107,6 +131,6 @@ $discussions = getThemedDiscussions($pdo, $theme);
     </form>
 </div>
 
-
+<script src="script.js"></script>
 <script defer src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" integrity="sha384-rOA1PnstxnOBLzCLMcre8ybwbTmemjzdNlILg8O7z1lUkLXozs4DHonlDtnE7fpc" crossorigin="anonymous"></script>
 <?php require_once(__DIR__ . '/templates/footer.php'); ?>

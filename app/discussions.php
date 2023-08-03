@@ -11,9 +11,9 @@ function getDiscussions(PDO $pdo): array
 
 function getThemedDiscussions(PDO $pdo, $theme = null): array
 {
-    $sql = 'SELECT * FROM discussions';
+    $sql = 'SELECT discussions.*, users.username FROM discussions LEFT JOIN users ON discussions.user_id = users.ID';
     if ($theme !== null) {
-        $sql .= ' WHERE theme = :theme';
+        $sql .= ' WHERE discussions.theme = :theme';
     }
 
     $query = $pdo->prepare($sql);
@@ -51,12 +51,79 @@ function getThemedDiscussions(PDO $pdo, $theme = null): array
     return $discussions;
 }
 
-function getThreeMessage(PDO $pdo, $date): array 
+function getThreeMessages(PDO $pdo, $date): array 
 {
     $query = $pdo->prepare('SELECT * FROM articles WHERE date_creation = :date_creation ORDER BY date DESC LIMIT 3');
     $query->bindParam(':date_creation', $date, PDO::PARAM_STR);
     $query->execute();
-    $threeMessage = $query->fetch(PDO::FETCH_ASSOC);
+    $threeMessages = $query->fetchAll(PDO::FETCH_ASSOC);
 
-    return $threeMessage;
+    return $threeMessages;
 }
+
+function getPictureUser(PDO $pdo, $userId)
+{
+    $query = $pdo->prepare("SELECT image FROM profile WHERE user_id = :user_id");
+    $query->bindParam(":user_id", $userId, PDO::PARAM_INT);
+    $query->execute();
+    $picture = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $picture;
+}
+
+function getUsernameOfAuthor(PDO $pdo, $authorId)
+{
+    $query = $pdo->prepare("SELECT username FROM users WHERE ID = :id");
+    $query->bindParam(":id", $authorId, PDO::PARAM_INT);
+    $query->execute();
+    $username = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $username;
+}
+
+function createDiscussion(PDO $pdo, $subject, $content, $theme, $userId)
+{
+    $query = $pdo->prepare("INSERT INTO discussions (subject, content, theme, user_id, date_creation) VALUES (:subject, :content, :theme, :user_id, NOW())");
+    $query->bindParam(':subject', $subject, PDO::PARAM_STR);
+    $query->bindParam(':content', $content, PDO::PARAM_STR);
+    $query->bindParam(':theme', $theme, PDO::PARAM_STR);
+    $query->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    $query->execute();
+
+    return true;
+}
+
+function getRepliesByDiscussionId($pdo, $discussionId) {
+    $query = $pdo->prepare('SELECT replies.ID, replies.content, replies.date_creation, users.username 
+                            FROM replies
+                            JOIN users ON replies.user_id = users.ID
+                            WHERE replies.discussion_id = :discussion_id');
+    $query->bindParam(':discussion_id', $discussionId, PDO::PARAM_INT);
+    $query->execute();
+    $replies = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($replies as &$reply) {
+        $reply_id = $reply['ID'];
+        // Récupérer le nombre de likes pour une réponse spécifique
+        $query = $pdo->prepare('SELECT COUNT(*) as like_count FROM reply_likes WHERE reply_id = ?');
+        $query->execute([$reply_id]);
+        $like_count = $query->fetchColumn();
+
+        // Ajouter le nombre de likes à chaque réponse
+        $reply['like_count'] = $like_count;
+    }
+
+    return $replies;
+}
+
+
+function getDiscussionById(PDO $pdo, int $id): array
+{
+    $query = $pdo->prepare('SELECT * FROM discussions WHERE ID = :id');
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->execute();
+    $discussion = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $discussion ? $discussion : [];
+}
+

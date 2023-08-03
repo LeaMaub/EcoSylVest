@@ -2,30 +2,40 @@
 require_once('../db/config.php');
 require_once('../db/pdo.php');
 
+session_start();
+
+// Vérifiez que l'utilisateur est connecté
+if (!isset($_SESSION['user'])) {
+    echo "Vous devez être connecté pour créer une discussion.";
+    return;
+}
+
+$userId = $_SESSION['user']['ID']; // Récupération de l'ID utilisateur depuis la session
+
 $postData = $_POST;
-if(!isset($postData['subject'], ['content'], ['theme'], ['username'])){
+if (!isset($postData['subject'], $postData['content'], $postData['theme'])) {
     echo('Vous devez remplir tous les champs.');
     return;
 }
 
 $subject = $postData['subject'];
-$username = $postData['username'];
 $theme = $postData['theme'];
 $content = $postData['content'];
 
-$insertMessage = $db->prepare('INSERT INTO discussions(subject, username, theme, content) VALUES (:subject, :username, :theme, :content)');
+$insertMessage = $pdo->prepare('INSERT INTO discussions(subject, theme, content, user_id) VALUES (:subject, :theme, :content, :user_id)');
 $insertMessage->execute([
-    'subject'=>$subject,
-    'username'=>$username,
-    'theme'=>$theme,
-    'content'=>$content,
+    'subject' => $subject,
+    'theme' => $theme,
+    'content' => $content,
+    'user_id' => $userId
 ]);
+
 ?>
 
-<?php require_once('/templates/header.php'); ?>
-        <h1 class="succes">discussion ajoutée avec succès !</h1>
+<?php require_once('../templates/header.php'); ?>
+        <h1 class="succes text-center mt-3">discussion ajoutée avec succès !</h1>
             
-            <div class="">
-                <p class=""><b>Votre message</b> : <?= strip_tags($content); ?></p>
+            <div class="d-flex justify-content-center align-items-center">
+                <p class="text-center"><b>Votre message</b> : <?= strip_tags($content); ?></p>
             </div>
-    <?php require_once($rootPath.'/templates/footer.php'); ?>
+    <?php require_once('../templates/footer.php'); ?>
