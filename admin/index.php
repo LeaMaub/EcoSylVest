@@ -8,8 +8,8 @@
                                 Gestion du/des administrateur(s)
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Ajouter</a></li>
-                                <li><a class="dropdown-item" href="#">Supprimer</a></li>
+                                <li><a class="dropdown-item" href="addAdmin.php">Ajouter</a></li>
+                                <li><a class="dropdown-item" href="admins.php">Supprimer</a></li>
                             </ul>
 </li>
                         <li class="nav-item dropdown">
@@ -44,8 +44,7 @@
                                 Gestion du forum
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#">Supprimer un sujet</a></li>
-                                <li><a class="dropdown-item" href="#">Supprimer un commentaire</a></li>
+                                <li><a class="dropdown-item" href="subjectForum.php">Supprimer un commentaire ou une publication</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -57,7 +56,7 @@
                                 <li><a class="dropdown-item" href="editAbout.php">À propos</a></li>
                             </ul>
                         </li>
-                        <li><a href="#" class="nav-link px-2 link-secondary">Bannir un utilisateur</a></li>
+                        <li><a href="users.php" class="nav-link px-2 link-secondary">Bannir/Débannir un utilisateur</a></li>
                     </ul>
 </div>
 <?php require_once('../templates/footer.php'); ?>

@@ -92,6 +92,10 @@
     color: #343a40;
 }
 
+.table tbody tr.text-start.banned {
+    background-color: #82302b67;
+}
+
 .pagination {
     --bs-pagination-padding-x: 0.75rem;
     --bs-pagination-padding-y: 0.375rem;
@@ -169,6 +173,17 @@ textarea {
     font-size: 15px;
     border-radius: 5px;
     width: 250px;
+    padding: 5px;
+    margin-top: 3px;
+}
+
+.success {
+    background-color: #24301097;
+    border: #243010 1px solid;
+    color:white;
+    font-size: 15px;
+    border-radius: 5px;
+    width: 400px;
     padding: 5px;
     margin-top: 3px;
 }

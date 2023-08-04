@@ -81,6 +81,16 @@ function getUsernameOfAuthor(PDO $pdo, $authorId)
     return $username;
 }
 
+function getDiscussionById(PDO $pdo, int $id): array
+{
+    $query = $pdo->prepare('SELECT * FROM discussions WHERE ID = :id');
+    $query->bindParam(':id', $id, PDO::PARAM_INT);
+    $query->execute();
+    $discussion = $query->fetch(PDO::FETCH_ASSOC);
+
+    return $discussion ? $discussion : [];
+}
+
 function createDiscussion(PDO $pdo, $subject, $content, $theme, $userId)
 {
     $query = $pdo->prepare("INSERT INTO discussions (subject, content, theme, user_id, date_creation) VALUES (:subject, :content, :theme, :user_id, NOW())");
@@ -91,6 +101,20 @@ function createDiscussion(PDO $pdo, $subject, $content, $theme, $userId)
     $query->execute();
 
     return true;
+}
+
+function deleteDiscussion(PDO $pdo, int $id):bool
+{
+    
+    $query = $pdo->prepare("DELETE FROM discussions WHERE ID = :id");
+    $query->bindValue(':id', $id, $pdo::PARAM_INT);
+
+    $query->execute();
+    if ($query->rowCount() > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function getRepliesByDiscussionId($pdo, $discussionId) {
@@ -116,14 +140,31 @@ function getRepliesByDiscussionId($pdo, $discussionId) {
     return $replies;
 }
 
-
-function getDiscussionById(PDO $pdo, int $id): array
+function getRepliesById(PDO $pdo, int $id): array
 {
-    $query = $pdo->prepare('SELECT * FROM discussions WHERE ID = :id');
+    $query = $pdo->prepare('SELECT * FROM replies WHERE ID = :id');
     $query->bindParam(':id', $id, PDO::PARAM_INT);
     $query->execute();
-    $discussion = $query->fetch(PDO::FETCH_ASSOC);
+    $reply = $query->fetch(PDO::FETCH_ASSOC);
 
-    return $discussion ? $discussion : [];
+    return $reply ? $reply : [];
 }
+
+function deleteReply($pdo, $id) {
+    $pdo->beginTransaction();
+
+    $query = $pdo->prepare('DELETE FROM reply_likes WHERE reply_id = :reply_id');
+    $query->bindParam(':reply_id', $id);
+    $query->execute();
+
+    $query = $pdo->prepare('DELETE FROM replies WHERE ID = :id');
+    $query->bindParam(':id', $id);
+    $query->execute();
+
+    $pdo->commit();
+
+    return $query->rowCount() > 0;
+}
+
+
 

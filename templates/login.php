@@ -11,17 +11,21 @@ if (isset($_POST['loginUser'])) {
 
     $user = verifyUserLoginPassword($pdo, $email, $password);
     if ($user) {
-        session_regenerate_id(true);
-        $_SESSION['user'] = $user;
-        if ($user['role'] === 'user') {
-            header('location: ../index.php');
-        } elseif ($user['role'] === 'Admin') {
-            header('location: ../admin/index.php');
+        if ($user['banned']) {
+            $errors[] = "Votre compte a été banni. Veuillez contacter l'administrateur maublea@ert.fr pour plus d'informations.";
+        } else {
+            session_regenerate_id(true);
+            $_SESSION['user'] = $user;
+            if ($user['role'] === 'user') {
+                header('location: ../index.php');
+            } elseif ($user['role'] === 'Admin') {
+                header('location: ../admin/index.php');
+            }
         }
     } else {
         $errors[] = "Email ou mot de passe incorrect";
     }
-}
+}    
 ?>
 
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
