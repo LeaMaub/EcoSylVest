@@ -5,7 +5,7 @@ require_once(__DIR__ . '/app/discussions.php');
 require_once(__DIR__ . '/templates/header.php');
 
 if (!isset($_SESSION['user'])) {
-    header("Location: templates/login.php"); 
+    header("Location: templates/login.php");
     exit();
 }
 

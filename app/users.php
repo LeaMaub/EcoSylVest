@@ -16,7 +16,6 @@ function verifyUserLoginPassword(PDO $pdo, string $email, string $password):bool
 
 function saveAdmin(PDO $pdo, string $username, string $lastname, string $firstname, string $email, string $password): bool
 {
-    // Hashage du mot de passe
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
     $role = 'Admin';
 

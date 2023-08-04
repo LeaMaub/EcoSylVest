@@ -65,6 +65,11 @@
     --bs-gradient: none;
 }
 
+.themeTitle {
+    background-color: #d0b17a28;
+    border-radius: 10px;
+}
+
 .table {
     --bs-table-bg: transparent; 
     --bs-table-accent-bg: transparent;

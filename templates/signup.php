@@ -4,10 +4,9 @@ require_once(__DIR__ . '/../db/pdo.php');
 require_once(__DIR__ . '/../app/register.php');
 require_once(__DIR__ . '/header.php');
 
-// Champ du formulaire
 $formFields = ['firstname', 'lastname', 'username', 'email', 'password'];
 
-// Vérifier si le formulaire a été soumis
+// Vérifie si le formulaire a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     foreach ($formFields as $field) {
         $$field = $_POST[$field];
@@ -21,9 +20,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['form_errors'] = $errors;
     } else {
         if (registerUser($pdo, $firstname, $lastname, $username, $email, $password)) {
-            // Inscription réussie, rediriger l'utilisateur vers une page appropriée
 
-            // Réinitialiser les variables de formulaire
+            // Réinitialise les variables de formulaire
             foreach ($formFields as $field) {
                 unset($_SESSION['form_' . $field]);
             }

@@ -63,7 +63,7 @@ function saveReportage(PDO $pdo, string $title, string $subtitle, string $conten
     $query->bindValue(':title', $title, $pdo::PARAM_STR);
     $query->bindValue(':subtitle', $subtitle, $pdo::PARAM_STR);
     $query->bindValue(':content', $content, $pdo::PARAM_STR);
-    // Fournir une chaîne de caractères vide si l'image n'est pas présente
+    
     $query->bindValue(':image', $image ?? '../assets/images/default.jpg', $pdo::PARAM_STR);
     return $query->execute();  
 }

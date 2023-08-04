@@ -19,8 +19,7 @@ if (isset($_GET['id'])) {
         $errors[] = "La dernière nouvelle n'existe pas";
     }
 } else {
-    // Redirect to error page or something similar
-    // if no id is provided
+    
 }
 
 if (isset($_POST['saveCarousel'])) {
@@ -31,9 +30,9 @@ if (isset($_POST['saveCarousel'])) {
             $image = slugify(basename($_FILES["file"]["name"]));
             $image = uniqid() . '-' . $image;
 
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], __DIR__ . '/../uploads/' . $image)) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], __DIR__ . '/../uploads/latestNews/' . $image)) {
                 if (isset($_POST['image'])) {
-                    unlink(__DIR__ . '/../uploads/' . $_POST['image']);
+                    unlink(__DIR__ . '/../uploads/latestNews/' . $_POST['image']);
                 }
             } else {
                 $errors[] = 'Le fichier n\'a pas été uploadé';
@@ -44,7 +43,7 @@ if (isset($_POST['saveCarousel'])) {
     } else {
         if (isset($_GET['id'])) {
             if (isset($_POST['delete_image'])) {
-                unlink(__DIR__ . '/../uploads/' . $_POST['image']);
+                unlink(__DIR__ . '/../uploads/latestNews/' . $_POST['image']);
             } else {
                 $image = $_POST['image'];
             }

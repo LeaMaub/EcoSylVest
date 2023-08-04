@@ -4,7 +4,6 @@ require_once('../db/pdo.php');
 
 session_start();
 
-// Vérifiez que l'utilisateur est connecté
 if (!isset($_SESSION['user'])) {
     echo "Vous devez être connecté pour créer une discussion.";
     return;

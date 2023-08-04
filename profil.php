@@ -46,12 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $file_size = $_FILES['profile_pic']['size'];
         $file_tmp = $_FILES['profile_pic']['tmp_name'];
         $file_type = $_FILES['profile_pic']['type'];
-    
-        // Vérification de la taille du fichier ici
+
+        // Vérification de la taille du fichier 
         if ($file_size > 10 * 1024 * 1024) { // 10 MB
             $errors[] = "Le fichier est trop grand. Taille maximale : 10MB.";
         }
-    
+
         $temp = explode('.', $file_name);
         $file_ext = strtolower(end($temp));
 

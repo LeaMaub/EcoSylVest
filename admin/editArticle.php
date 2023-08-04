@@ -10,6 +10,7 @@ $errors = [];
 $messages = [];
 $article = [
     'title' => '',
+    'subtitle' => '',
     'content' => '',
     'theme_id' => '',
 ];
@@ -22,9 +23,6 @@ if (isset($_GET['id'])) {
     if ($article === false) {
         $errors[] = "L'article n'existe pas";
     }
-} else {
-    // Redirect to error page or something similar
-    // if no id is provided
 }
 
 if (isset($_POST['saveArticle'])) {
@@ -35,9 +33,9 @@ if (isset($_POST['saveArticle'])) {
             $image = slugify(basename($_FILES["file"]["name"]));
             $image = uniqid() . '-' . $image;
 
-            if (move_uploaded_file($_FILES["file"]["tmp_name"], __DIR__ . '/../uploads/' . $image)) {
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], __DIR__ . '/../uploads/articles/' . $image)) {
                 if (isset($_POST['image'])) {
-                    unlink(__DIR__ . '/../uploads/' . $_POST['image']);
+                    unlink(__DIR__ . '/../uploads/articles/' . $_POST['image']);
                 }
             } else {
                 $errors[] = 'Le fichier n\'a pas été uploadé';
@@ -48,43 +46,51 @@ if (isset($_POST['saveArticle'])) {
     } else {
         if (isset($_GET['id'])) {
             if (isset($_POST['delete_image'])) {
-                unlink(__DIR__ . '/../uploads/' . $_POST['image']);
+                unlink(__DIR__ . '/../uploads/articles/' . $_POST['image']);
             } else {
                 $image = $_POST['image'];
             }
         }
     }
 
+    $theme_id = (int)$_POST['theme_id'];
+    $theme = array_filter($themes, function($theme) use ($theme_id) {
+        return $theme['id'] == $theme_id;
+    });
+    $theme = reset($theme);
+    $category = $theme['title'];
+
     $article = [
         'title' => $_POST['title'],
+        'subtitle' => $_POST['subtitle'],
         'content' => $_POST['content'],
-        'theme_id' => $_POST['theme_id'],
-        'image' => $image
+        'theme_id' => $theme_id,
+        'category' => $category, 
+        'image' => $image,
     ];
 
-    if (!$errors) {
-        if (isset($_GET["id"])) {
-            $id = (int)$_GET["id"];
-        } else {
-            $id = null;
-        }
+    if (isset($_GET["id"])) {
+        $id = (int)$_GET["id"];
+    } else {
+        $id = null;
+    }
 
-        $res = saveArticle($pdo, $_POST["title"], $_POST["content"], $image, (int)$_POST["theme_id"], $id);
+    $res = saveArticle($pdo, $_POST["title"], $_POST["subtitle"], $_POST["content"], $image, $theme_id, $category, $id);
 
-        if ($res) {
-            $messages[] = "L'article a bien été sauvegardé";
-            if (!isset($_GET["id"])) {
-                $article = [
-                    'title' => '',
-                    'content' => '',
-                    'theme_id' => '',
-                ];
-            }
-            header("Location: /admin/articles.php");
-            exit();
-        } else {
-            $errors[] = "L'article n'a pas été sauvegardé";
+    if ($res) {
+        $messages[] = "L'article a bien été sauvegardé";
+        if (!isset($_GET["id"])) {
+            $article = [
+                'title' => '',
+                'subtitle' => '',
+                'content' => '',
+                'theme_id' => '',
+            ];
         }
+        header("Location: /admin/articles.php");
+        exit();
+    } else {
+        $errors[] = "L'article n'a pas été sauvegardé";
     }
 }
 
@@ -109,6 +115,10 @@ if (isset($_POST['saveArticle'])) {
             <div class="mb-3">
                 <label for="title" class="form-label">Titre</label>
                 <input type="text" class="form-control" id="title" name="title" value="<?= $article['title']; ?>">
+            </div>
+            <div class="mb-3">
+                <label for="subtitle" class="form-label">Sous-titre</label>
+                <input type="text" class="form-control" id="subtitle" name="subtitle" value="<?= $article['subtitle']; ?>">
             </div>
             <div class="mb-3">
                 <label for="content" class="form-label">Contenu</label>

@@ -16,7 +16,7 @@ $query->bindParam(':reply_id', $reply_id);
 $query->bindParam(':user_id', $user_id);
 $query->execute();
 if ($like = $query->fetch()) {
-    // Si l'utilisateur a déjà aimé cette réponse, supprimer le like
+    // Si l'utilisateur a déjà aimé cette réponse, supprime le like
     $query = $pdo->prepare('DELETE FROM reply_likes WHERE reply_id = :reply_id AND user_id = :user_id');
     $query->bindParam(':reply_id', $reply_id);
     $query->bindParam(':user_id', $user_id);
@@ -28,15 +28,13 @@ if ($like = $query->fetch()) {
     $query->execute();
 }
 
-// Récupérer le nouveau nombre de likes pour cette réponse
+// Récupère le nouveau nombre de likes pour cette réponse
 $query = $pdo->prepare('SELECT COUNT(*) as like_count FROM reply_likes WHERE reply_id = :reply_id');
 $query->bindParam(':reply_id', $reply_id);
 $query->execute();
 $like_count = $query->fetch()['like_count'];
 
-// Imprimer le nouveau nombre de likes
 echo $like_count;
 
-// Terminer le script ici
 exit();
 ?>

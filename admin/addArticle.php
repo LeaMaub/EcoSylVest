@@ -12,7 +12,7 @@ $article = [
     'title' => '',
     'subtitle' => '',
     'content' => '',
-    'category_id' => ''
+    'theme_id' => ''
 ];
 
 $themes = getThemes($pdo);
@@ -21,22 +21,19 @@ $pageTitle = "Formulaire ajout article";
 
 if (isset($_POST['saveArticle'])) {
 
-    //@todo gérer la gestion des erreurs sur les champs (champ vide etc.)
-
     $fileName = null;
-    // Si un fichier est envoyé
+    $theme_id = (int)$_POST['theme_id'];
+    $category = '';
+    $id = null; 
+
     if (isset($_FILES["file"]["tmp_name"]) && $_FILES["file"]["tmp_name"] != '') {
         $checkImage = getimagesize($_FILES["file"]["tmp_name"]);
         if ($checkImage !== false) {
             $fileName = slugify(basename($_FILES["file"]["name"]));
             $fileName = uniqid() . '-' . $fileName;
 
-            /* On déplace le fichier uploadé dans notre dossier upload, dirname(__DIR__) 
-                permet de cibler le dossier parent car on se trouve dans admin
-            */
             if (move_uploaded_file($_FILES["file"]["tmp_name"], dirname(__DIR__) . _ARTICLES_IMAGES_FOLDER_ . $fileName)) {
                 if (isset($_POST['image'])) {
-                    // On supprime l'ancienne image si on a posté une nouvelle
                     unlink(dirname(__DIR__) . _ARTICLES_IMAGES_FOLDER_ . $_POST['image']);
                 }
             } else {
@@ -46,31 +43,33 @@ if (isset($_POST['saveArticle'])) {
             $errors[] = 'Le fichier doit être une image';
         }
     }
-    /* 
-    On stocke toutes les données envoyés dans un tableau pour pouvoir afficher
-    les informations dans les champs. C'est utile pas exemple si on upload un mauvais
-    fichier et qu'on ne souhaite pas perdre les données qu'on avait saisit.
-    */
+
+    $theme = array_filter($themes, function($theme) use ($theme_id) {
+        return $theme['id'] == $theme_id;
+    });
+    $theme = reset($theme);
+    if ($theme) {
+        $category = $theme['title'];
+    }
+
     $article = [
         'title' => $_POST['title'],
         'subtitle' => $_POST['subtitle'],
         'content' => $_POST['content'],
-        'category_id' => $_POST['category_id'],
+        'theme_id' => $_POST['theme_id'],
         'image' => $fileName
     ];
-    // Si il n'y a pas d'erreur on peut faire la sauvegarde
+
     if (!$errors) {
-        // On passe toutes les données à la fonction saveArticle
-        $res = saveArticle($pdo, $_POST["title"], $_POST["subtitle"], $_POST["content"], $fileName, (int)$_POST["category_id"]);
+        $res = saveArticle($pdo, $_POST["title"], $_POST["subtitle"], $_POST["content"], $fileName, $theme_id, $category, $id);
 
         if ($res) {
             $messages[] = "L'article a bien été sauvegardé";
-            //On vide le tableau article pour avoir les champs de formulaire vides
             $article = [
                 'title' => '',
                 'subtitle' => '',
                 'content' => '',
-                'category_id' => ''
+                'theme_id' => ''
             ];
         } else {
             $errors[] = "L'article n'a pas été sauvegardé";
@@ -107,10 +106,10 @@ if (isset($_POST['saveArticle'])) {
             <textarea class="form-control" id="content" name="content" rows="8"><?= $article['content']; ?></textarea>
         </div>
         <div class="mb-3">
-            <label for="category" class="form-label">Catégorie</label>
-            <select name="category_id" id="category" class="form-select">
+            <label for="theme" class="form-label">Catégorie</label>
+            <select name="theme_id" id="theme_id" class="form-select">
                 <?php foreach ($themes as $theme) { ?>
-                    <option value="<?= $theme['id']; ?>" <?php if ($article['category_id'] == $theme['id']) { ?>selected="selected" <?php }; ?>><?= $theme['title']; ?></option>
+                    <option value="<?= $theme['id']; ?>" <?php if ($article['theme_id'] == $theme['id']) { ?>selected="selected" <?php }; ?>><?= $theme['title']; ?></option>
                 <?php } ?>
             </select>
         </div>

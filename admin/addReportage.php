@@ -27,19 +27,16 @@ if (isset($_POST['saveReportage'])) {
     //@todo gérer la gestion des erreurs sur les champs (champ vide etc.)
 
     $fileName = null;
-    // Si un fichier est envoyé
+
     if (isset($_FILES["file"]["tmp_name"]) && $_FILES["file"]["tmp_name"] != '') {
         $checkImage = getimagesize($_FILES["file"]["tmp_name"]);
         if ($checkImage !== false) {
             $fileName = slugify(basename($_FILES["file"]["name"]));
             $fileName = uniqid() . '-' . $fileName;
 
-            /* On déplace le fichier uploadé dans notre dossier upload, dirname(__DIR__) 
-                permet de cibler le dossier parent car on se trouve dans admin
-            */
             if (move_uploaded_file($_FILES["file"]["tmp_name"], dirname(__DIR__) . _REPORTAGES_IMAGES_FOLDER_ . $fileName)) {
                 if (isset($_POST['image'])) {
-                    // On supprime l'ancienne image si on a posté une nouvelle
+
                     unlink(dirname(__DIR__) . _REPORTAGES_IMAGES_FOLDER_ . $_POST['image']);
                 }
             } else {
@@ -49,25 +46,21 @@ if (isset($_POST['saveReportage'])) {
             $errors[] = 'Le fichier doit être une image';
         }
     }
-    /* 
-    On stocke toutes les données envoyés dans un tableau pour pouvoir afficher
-    les informations dans les champs. C'est utile pas exemple si on upload un mauvais
-    fichier et qu'on ne souhaite pas perdre les données qu'on avait saisit.
-    */
+
     $reportage = [
         'title' => $_POST['title'],
         'subtitle' => $_POST['subtitle'],
         'content' => $_POST['content'],
         'image' => $fileName ?? ''
     ];
-    // Si il n'y a pas d'erreur on peut faire la sauvegarde
+
     if (!$errors) {
-        // On passe toutes les données à la fonction saveArticle
+
         $res = saveReportage($pdo, $_POST["title"], $_POST["subtitle"], $_POST["content"], $fileName ?? null);
 
         if ($res) {
             $messages[] = "L'article a bien été sauvegardé";
-            //On vide le tableau article pour avoir les champs de formulaire vides
+
             $reportage = [
                 'title' => '',
                 'subtitle' => '',

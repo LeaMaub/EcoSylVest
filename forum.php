@@ -65,44 +65,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <div class="content d-flex flex-grow-1">
-    <div class="container d-flex flex-column justify-content-center">
-        <div class="row">
-            <div class="col-lg-8 mx-auto my-3 p-2 bg-body rounded shadow-sm">
-                <h6 class="border-bottom pb-2 mb-0 text-center display-6">Publications les plus récentes</h6>
-                <?php foreach ($discussions as $key => $discussion) {
-                    $authorId = $discussion['user_id'];
-                    $username = getUsernameOfAuthor($pdo, $authorId);
-                    $picture = getPictureUser($pdo, $authorId);
-                    $pictureUser = $picture ? $picture['image'] : '/assets/images/profilpicturesdefault.jpg';
-                    $additionalClass = $key >= 5 ? 'additional hidden-discussion' : 'additional';
-                ?>
-                <a href="replies.php?id=<?= $discussion['ID'] ?>" class="text-decoration-none">
-                    <div class="d-flex justify-content-between text-body-secondary pt-3 mx-auto <?= $additionalClass ?>">
-                        <div class="d-flex flex-direction-column">
-                            <img src="<?= $pictureUser ?>" alt="Photo de profil" class="mr-2 rounded-profile-image">
-                            <p class="pb-3 mb-0 small lh-sm">
-                                <strong class="subject d-block text-gray-dark">
-                                    <?= $discussion['subject'] ?>
-                                </strong>
-                                <strong class="d-block text-gray-dark mb-2">@<?= $username['username'] ?></strong>
-                                <?= $discussion['content'] ?>
-                                <br />
-                                <br />
-                                <?= $discussion['date_creation'] ?>
-                            </p>
-                        </div>
-                        <?= $discussion['themeSvg'] ?>
+        <div class="container d-flex flex-column justify-content-center">
+            <div class="row">
+                <div class="col-lg-8 mx-auto my-3 p-2 bg-body rounded shadow-sm">
+                    <h6 class="border-bottom pb-2 mb-0 text-center display-6">Publications les plus récentes</h6>
+                    <?php foreach ($discussions as $key => $discussion) {
+                        $authorId = $discussion['user_id'];
+                        $username = getUsernameOfAuthor($pdo, $authorId);
+                        $picture = getPictureUser($pdo, $authorId);
+                        $pictureUser = $picture ? $picture['image'] : '/assets/images/profilpicturesdefault.jpg';
+                        $additionalClass = $key >= 5 ? 'additional hidden-discussion' : 'additional';
+                    ?>
+                        <a href="replies.php?id=<?= $discussion['ID'] ?>" class="text-decoration-none">
+                            <div class="d-flex justify-content-between text-body-secondary pt-3 mx-auto <?= $additionalClass ?>">
+                                <div class="d-flex flex-direction-column">
+                                    <img src="<?= $pictureUser ?>" alt="Photo de profil" class="mr-2 rounded-profile-image">
+                                    <p class="pb-3 mb-0 small lh-sm">
+                                        <strong class="subject d-block text-gray-dark">
+                                            <?= $discussion['subject'] ?>
+                                        </strong>
+                                        <strong class="d-block text-gray-dark mb-2">@<?= $username['username'] ?></strong>
+                                        <?= $discussion['content'] ?>
+                                        <br />
+                                        <br />
+                                        <?= $discussion['date_creation'] ?>
+                                    </p>
+                                </div>
+                                <?= $discussion['themeSvg'] ?>
+                            </div>
+                        </a>
+                        <hr class="my-3 <?= $additionalClass ?>">
+                    <?php } ?>
+                    <div class="d-grid gap-2 d-md-flex justify-content-center mt-5">
+                        <a href="#" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Toutes les publications...</a>
                     </div>
-                    </a>
-                    <hr class="my-3 <?= $additionalClass ?>">
-                <?php } ?>
-                <div class="d-grid gap-2 d-md-flex justify-content-center mt-5">
-                    <a href="#" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold">Toutes les publications...</a>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </div>
 

@@ -128,12 +128,12 @@ function getRepliesByDiscussionId($pdo, $discussionId) {
 
     foreach ($replies as &$reply) {
         $reply_id = $reply['ID'];
-        // Récupérer le nombre de likes pour une réponse spécifique
+        // Récupère le nombre de likes pour une réponse spécifique
         $query = $pdo->prepare('SELECT COUNT(*) as like_count FROM reply_likes WHERE reply_id = ?');
         $query->execute([$reply_id]);
         $like_count = $query->fetchColumn();
 
-        // Ajouter le nombre de likes à chaque réponse
+        // Ajoute le nombre de likes à chaque réponse
         $reply['like_count'] = $like_count;
     }
 

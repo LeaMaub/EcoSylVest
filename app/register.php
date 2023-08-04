@@ -10,32 +10,30 @@ $fieldLabels = [
 function registerUser($pdo, $firstname, $lastname, $username, $email, $password) {
     $errorFields = ['username' => 'Nom d\'utilisateur déjà pris', 'email' => 'Email déjà utilisé'];
 
-    // Ajoutez cette ligne pour suivre si une erreur a été rencontrée
+    // Pour suivre si une erreur a été rencontrée
     $hasError = false;
 
     foreach ($errorFields as $field => $errorMsg) {
-        // Vérifiez si le nom d'utilisateur ou l'email existe déjà
+        // Vérifie si le nom d'utilisateur ou l'email existe déjà
         $query = $pdo->prepare("SELECT * FROM users WHERE $field = ?");
         $query->execute([${$field}]);
 
         if ($query->rowCount() > 0) {
             // Nom d'utilisateur ou Email déjà utilisé
             $_SESSION['form_errors'][$field] = $errorMsg;
-            // Marquez qu'une erreur a été rencontrée
+            // Annonce qu'une erreur a été rencontrée
             $hasError = true;
         }
     }
 
     if ($hasError) {
-        // Si une erreur a été rencontrée, retournez false
+        // Si une erreur a été rencontrée, retourne false
         return false;
     }
 
-    // Hasher le mot de passe
     $password = password_hash($password, PASSWORD_BCRYPT);
     $role = 'user';
 
-    // Insérer l'utilisateur dans la base de données
     $query = $pdo->prepare("INSERT INTO users (firstname, lastname, email, password, username, role) VALUES (:firstname, :lastname, :email, :password, :username, :role)");
 
     $query->bindParam(':firstname', $firstname, PDO::PARAM_STR);

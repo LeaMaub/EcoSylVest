@@ -7,7 +7,6 @@ document.querySelector('.btn.btn-primary.btn-lg').addEventListener('click', func
       discussion.classList.remove('hidden-discussion'); // Retire la classe pour afficher les discussions
   });
 
-  // Cache le bouton, car toutes les discussions sont maintenant affichées
   this.style.display = 'none';
 });
 

@@ -65,25 +65,26 @@ function getOneArticle(PDO $pdo, $category): array
     return $oneArticle;
 }
 
-function saveArticle(PDO $pdo, string $title, string $subtitle, string $content, string|null $image, int $theme_id, int $id = null):bool 
+function saveArticle(PDO $pdo, string $title, string $subtitle, string $content, string|null $image, int $theme_id, string $category, int $id = null):bool 
 {
     if ($id === null) {
-        $query = $pdo->prepare("INSERT INTO articles (title, subtitle, content, image, theme_id) "
-        ."VALUES(:title, :subtitle, :content, :image, :theme_id)");
+        $query = $pdo->prepare("INSERT INTO articles (title, subtitle, content, image, theme_id, category) "
+        ."VALUES(:title, :subtitle, :content, :image, :theme_id, :category)");
     } else {
         $query = $pdo->prepare("UPDATE `articles` SET `title` = :title, "
         ."`subtitle` = :subtitle, "
         ."`content` = :content, "
-        ."image = :image, theme_id = :theme_id WHERE `id` = :id;");
-        
+        ."image = :image, theme_id = :theme_id, category = :category WHERE `id` = :id;");
         $query->bindValue(':id', $id, $pdo::PARAM_INT);
-    }
+    }    
 
     $query->bindValue(':title', $title, $pdo::PARAM_STR);
     $query->bindValue(':subtitle', $subtitle, $pdo::PARAM_STR);
     $query->bindValue(':content', $content, $pdo::PARAM_STR);
     $query->bindValue(':image',$image, $pdo::PARAM_STR);
     $query->bindValue(':theme_id',$theme_id, $pdo::PARAM_INT);
+    $query->bindValue(':category', $category, PDO::PARAM_STR);
+
     return $query->execute();  
 }
 
