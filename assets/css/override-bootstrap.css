@@ -75,7 +75,7 @@
 }
 
 .table thead {
-    background-color: #2A3C24;
+    background-color: #2a3c24;
 }
 
 .table thead th {
@@ -200,7 +200,7 @@ textarea {
     display: flex;
     align-items: center;
     padding: 5px;
-    gap: 30px; /* Espacement entre les éléments */
+    gap: 30px;
 }
 
 .user-info h5, p {
@@ -211,18 +211,18 @@ textarea {
 .profile-header {
     display: flex;
     align-items: center;
-    gap: 15px; /* Ajoutez un espace entre l'image et le titre */
+    gap: 15px;
 }
 
 #profile-image {
-    width: 100px;  /* Choisissez la taille que vous préférez */
-    height: 100px;  /* Choisissez la taille que vous préférez */
-    border-radius: 50%;  /* Pour faire de l'image un cercle */
-    object-fit: cover;  /* Pour s'assurer que l'image couvre toute la surface définie, tout en maintenant son aspect */
+    width: 100px;  
+    height: 100px;  
+    border-radius: 50%; 
+    object-fit: cover;  
 }
 
 .rounded-profile-image {
-    border-radius: 50%; /* rend l'image ronde */
+    border-radius: 50%; 
     width: 52px;
     height: 52px;
     margin-bottom: 100px;
@@ -247,7 +247,7 @@ div.d-flex.justify-content-between.text-body-secondary.pt-3.mx-auto.additional {
 .reply {
     padding: 15px;
     border-radius: 5px;
-    background-color: rgb(161, 195, 73, 0.2);
+    background-color: rgb(161, 195, 73, 0.1);
 }
 
 .replies {
