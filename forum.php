@@ -11,7 +11,7 @@ if (isset($_GET['theme'])) {
 if (isset($_SESSION['user'])) {
     $userId = $_SESSION['user'];
 } else {
-    header("Location: /templates/login.php");
+    header('Location: http://ecosylvest.fr/templates/login.php');
     exit;
 }
 

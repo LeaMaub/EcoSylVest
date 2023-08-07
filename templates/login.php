@@ -8,7 +8,6 @@ $errors = [];
 if (isset($_POST['loginUser'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-
     $user = verifyUserLoginPassword($pdo, $email, $password);
     if ($user) {
         if ($user['banned']) {
@@ -17,9 +16,11 @@ if (isset($_POST['loginUser'])) {
             session_regenerate_id(true);
             $_SESSION['user'] = $user;
             if ($user['role'] === 'user') {
-                header('location: ../index.php');
+                header('location: http://ecosylvest.fr');
+            exit;
             } elseif ($user['role'] === 'Admin') {
-                header('location: ../admin/index.php');
+                header('location: http://ecosylvest.fr/admin/index.php');
+            exit;
             }
         }
     } else {

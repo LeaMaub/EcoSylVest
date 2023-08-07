@@ -3,7 +3,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_set_cookie_params([
         'lifetime' => 3600,
         'path' => '/',
-        //'domain' => _DOMAIN_ ,
+        'domain' => _DOMAIN_ ,
         /* 'secure' => true, */
         'httponly' => true
     ]);
