@@ -23,7 +23,7 @@ $pageInfo = getPageInfo($menuItems, $currentPage);
     <div class="container">
         <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
 
-            <div class="d-flex align-items-center mb-2 mb-md-0">
+            <div class=" logo d-flex align-items-center mb-2 mb-md-0">
                 <a href="/" class="d-inline-flex align-items-center link-body-emphasis text-decoration-none">
                     <img src="../assets/images/logo.jpg" alt="Logo" class="rounded-circle" width="150">
                     <h1 class="mb-0 ml-3">EcoSylVest</h1>
@@ -31,16 +31,19 @@ $pageInfo = getPageInfo($menuItems, $currentPage);
             </div>
 
 
-            <div class="d-flex flex-column flex-md-row align-items-center">
-                <ul class="nav mb-2 justify-content-center mb-md-0 me-5">
-                    <?php foreach ($menuItems as $key => $menuItem) {
-                        if (!array_key_exists('exclude', $menuItem)) { ?>
-                            <li><a href="/<?= $key ?>" class="nav-link px-2 link-secondary"><?= htmlentities($menuItem['title']) ?></a></li>
-                    <?php }
-                    }
-                    ?>
-                </ul>
-
+            <div class="menu-container d-flex flex-column flex-md-row align-items-center">
+                    <div class="menu-toggle" id="mobile-menu">
+                        <i class="fa-solid fa-bars" style="color: #2a3c24;"></i>
+                    </div>
+                    <ul class="nav mb-2 justify-content-center mb-md-0 me-5 mobile-nav-list">
+                        <?php foreach ($menuItems as $key => $menuItem) {
+                            if (!array_key_exists('exclude', $menuItem)) { ?>
+                                <li><a href="/<?= $key ?>" class="nav-link px-2 link-secondary"><?= htmlentities($menuItem['title']) ?></a></li>
+                        <?php }
+                        }
+                        ?>
+                    </ul>
+            
                 <div class="text-end">
                     <?php if (isset($_SESSION['user'])) { ?>
                         <a href="/templates/logout.php" class="btn btn-outline-primary me-2">Déconnexion</a>
@@ -52,6 +55,4 @@ $pageInfo = getPageInfo($menuItems, $currentPage);
             </div>
         </header>
     </div>
-</body>
 
-</html>

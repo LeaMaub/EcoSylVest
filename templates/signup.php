@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container col-xl-10 col-xxl-8 px-4 py-5">
         <div class="row align-items-center g-lg-5 py-5">
             <div class="d-flex justify-content-center">
-                <div class="col-lg-7 text-center text-lg-center">
+                <div class="signup-text col-lg-7 text-center text-lg-center">
                     <img class="d-block mx-auto mb-4" src="/assets/images/logo.jpg" alt="" width="72" height="57">
                     <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Inscription</h1>
                     <p class="col-lg-12 fs-4 mx-auto">

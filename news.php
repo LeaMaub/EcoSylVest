@@ -48,9 +48,9 @@ $themes = getThemes($pdo);
 <div class="container marketing">
 
 
-    <div class="row">
+    <div class="choiceTheme row">
         <?php foreach ($themes as $key => $theme) { ?>
-            <div class="col-lg-4">
+            <div class="btn-theme col-lg-4">
                 <a href="/themes/<?= $theme['page'] ?>" class="d-flex flex-column align-items-center link-body-emphasis text-decoration-none">
                     <img class="bd-placeholder-img rounded-circle cover-img" width="170" height="170" src="/assets/images/<?= $theme['image'] ?>" alt="<?= $theme['title'] ?>">
                     <h2 class="fw-normal"><?= $theme['title'] ?></h2>

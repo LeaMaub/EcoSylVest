@@ -80,7 +80,7 @@
 }
 
 .table thead {
-    background-color: #2a3c24;
+    background-color: rgb(42, 60, 36);
 }
 
 .table thead th {
@@ -276,4 +276,100 @@ div.d-flex.justify-content-between.text-body-secondary.pt-3.mx-auto.additional {
     height: 50px;
     outline: none;
 }
+
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+    padding: 10px; 
+}
+
+@media screen and (max-width: 985px) {
+    header h1 {
+        display: none;
+    }
+
+    header .logo {
+        margin: auto;
+        justify-content: center;
+    }
+
+    header .logoAdmin {
+        margin: 0 !important;
+        justify-content: center;
+    }
+
+    .headerAdmin {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /*Menu burger*/
+
+    .menu-container {
+        margin: auto;
+        width: 100%;
+        clear: both;
+    }
+
+    .menu-toggle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    .mobile-nav-list {
+        width: 100%;
+        margin: auto;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .mobile-nav-list li {
+        text-align: center;
+    }
+
+    .mobile-nav-list.active {
+        display: flex;
+    }
+
+    /*Accueil*/
+
+    .presentationTitle {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .presentationImg {
+        display: none;
+    }
+
+    .indexArticles img {
+        height: 200px;
+    }
+
+    /*Connexion*/
+
+    .log-text {
+        margin-bottom: 30px;
+    }
+
+    /*Inscription*/
+
+    .signup-text {
+        margin-bottom: 30px;
+    }
+
+    /*Actualités*/
+
+    .choiceTheme {
+        display: flex;
+    }
+
+    .btn-theme {
+        width: 180px;
+    }
+}
+
 

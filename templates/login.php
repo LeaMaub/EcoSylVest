@@ -30,7 +30,7 @@ if (isset($_POST['loginUser'])) {
 
 <div class="container col-xl-10 col-xxl-8 px-4 py-5">
     <div class="row align-items-center g-lg-5 py-5">
-        <div class="col-lg-7 text-center text-lg-start">
+        <div class="log-text col-lg-7 text-center text-lg-start">
             <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">Connexion</h1>
             <p class="col-lg-10 fs-4">Connectez-vous pour pouvoir communiquer avec les autres utilisateurs sur le forum et gérer votre profil !</p>
         </div>

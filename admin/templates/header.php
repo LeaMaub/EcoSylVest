@@ -18,13 +18,14 @@ $pageInfo = getPageInfo($menuItems, $currentPage);
     <meta name="description" content="Page réservée à l'administrateur du site">
     <title>Administration du site EcoSylVest</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="../../assets/css/override-bootstrap.css">
 </head>
 
 <body>
     <div class="container">
-        <header class="d-flex justify-content-between py-3 mb-4 mt-5 border-bottom">
-            <div class="d-flex align-items-center mb-2 mb-md-0 me-5">
+        <header class="headerAdmin d-flex justify-content-between py-3 mb-4 mt-5 border-bottom">
+            <div class="logoAdmin d-flex align-items-center mb-2 mb-md-0 me-5">
                 <a href="/" class="d-inline-flex align-items-center link-body-emphasis text-decoration-none">
                     <img src="../assets/images/logo.jpg" alt="Logo" class="rounded-circle" width="150">
                     <h1 class="mb-0 ml-3">EcoSylVest</h1>
@@ -32,8 +33,11 @@ $pageInfo = getPageInfo($menuItems, $currentPage);
             </div>
 
             <div class="d-flex align-items-center my-5">
-                <div class="d-flex flex-column flex-md-row align-items-center">
-                    <ul class="nav mb-2 justify-content-center mb-md-0 me-5">
+                <div class="menu-container d-flex flex-column flex-md-row align-items-center">
+                <div class="menu-toggle" id="mobile-menu">
+                        <i class="fa-solid fa-bars" style="color: #2a3c24;"></i>
+                    </div>
+                    <ul class="nav mb-2 justify-content-center mb-md-0 me-5 mobile-nav-list">
                         <?php foreach ($menuItems as $key => $menuItem) {
                             if (!array_key_exists('exclude', $menuItem)) { ?>
                                 <li><a href="/<?= $key ?>" class="nav-link px-2 link-secondary"><?= htmlentities($menuItem['title']) ?></a></li>
