@@ -13,9 +13,11 @@ if (session_status() == PHP_SESSION_NONE) {
 function adminOnly()
 {
     if (!isset($_SESSION['user'])) {
-        header('location: ../templates/login.php');
+        header('location: http://ecosylvest.fr/templates/login.php');
+        exit;
     } else if ($_SESSION['user']['role'] != 'Admin') {
-        header('location: ../index.php');
+        header('location: http://ecosylvest.fr/index.php');
+        exit;
     }
     
 }
