@@ -30,8 +30,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <div class="d-flex">
-
-    <div class="sidebar d-flex flex-column flex-shrink-0 bg-body-tertiary mt-5" style="width: 5.7rem; height: 8rem;">
+<div class="container-sidebar">
+    <div class="sidebar d-flex flex-column flex-shrink-0 mt-5" style="width: 5.7rem; height: 8rem;">
         <ul class="nav nav-pills nav-flush flex-column mb-auto text-center">
             <li class="nav-item mb-3 text-center">
                 <a href="forum.php" class="nav-link active py-3 border-bottom rounded-0" aria-current="page" data-bs-toggle="tooltip" data-bs-placement="right">
@@ -63,6 +63,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </li>
         </ul>
     </div>
+</div>
+    
 
     <div class="content d-flex flex-grow-1">
         <div class="container d-flex flex-column justify-content-center">
@@ -76,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $pictureUser = $picture ? $picture['image'] : '/assets/images/profilpicturesdefault.jpg';
                         $additionalClass = $key >= 5 ? 'additional hidden-discussion' : 'additional';
                     ?>
-                        <a href="replies.php?id=<?= $discussion['ID'] ?>" class="text-decoration-none">
+                        <a href="replies.php?id=<?= $discussion['ID'] ?>" class="publication text-decoration-none">
                             <div class="d-flex justify-content-between text-body-secondary pt-3 mx-auto <?= $additionalClass ?>">
                                 <div class="d-flex flex-direction-column">
                                     <img src="<?= $pictureUser ?>" alt="Photo de profil" class="mr-2 rounded-profile-image">
@@ -84,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <strong class="subject d-block text-gray-dark">
                                             <?= $discussion['subject'] ?>
                                         </strong>
-                                        <strong class="d-block text-gray-dark mb-2">@<?= $username['username'] ?></strong>
+                                        <strong class="username d-block text-gray-dark mb-2">@<?= $username['username'] ?></strong>
                                         <?= $discussion['content'] ?>
                                         <br />
                                         <br />

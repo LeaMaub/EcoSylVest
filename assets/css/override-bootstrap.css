@@ -370,6 +370,40 @@ div.d-flex.justify-content-between.text-body-secondary.pt-3.mx-auto.additional {
     .btn-theme {
         width: 180px;
     }
+
+    /*Forum*/
+
+    .container-sidebar {
+        height: 1100px;
+    }
+
+    .sidebar {
+        width: 4rem;
+    }
+
+    .sidebar li,  .sidebar li a {
+        width: 4rem;
+        height:4rem;
+    }
+
+    .sidebar li a svg {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .subject {
+        font-size: 15px !important;
+    }
+
+    .username {
+        font-size: 12px;
+    }
+
+    a.publication.text-decoration-none svg {
+        width: 5rem !important ;
+        height: 5rem !important ;
+        margin-left: 20px !important ;
+    }
 }
 
 
